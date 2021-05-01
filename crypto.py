@@ -30,12 +30,12 @@ class Asset:
       self.getCurrentPrice()
     print(self.name + ": " + str(self.lastPrice))
 
-assets = []
-assets.append(Asset("BTC", coinbase, .01162942))
-assets.append(Asset("ETH", coinbase, .28618991))
-assets.append(Asset("ADA", kraken, 163.3))
-assets.append(Asset("DOGE", kraken, 533.9))
-assets.append(Asset("VET", binanceus, 919.3))
+portfolio = []
+portfolio.append(Asset("BTC", coinbase, .01162942))
+portfolio.append(Asset("ETH", coinbase, .28618991))
+portfolio.append(Asset("ADA", kraken, 163.3))
+portfolio.append(Asset("DOGE", kraken, 533.9))
+portfolio.append(Asset("VET", binanceus, 919.3))
 
 def writeToFile(fileName, data):
   f = open(fileName, 'w')
@@ -50,7 +50,7 @@ def recordPortfolioStats():
   while(True):
     iterations = iterations + 1
     totalValue = 0
-    for asset in assets:
+    for asset in portfolio:
       asset.getCurrentPrice()
       totalValue = totalValue + asset.getCurrentValue()
     history.append((totalValue, time.time()))

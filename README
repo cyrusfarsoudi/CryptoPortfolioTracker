@@ -1,0 +1,3 @@
+-- dependencies --
+ccxt
+- install by running "pip install ccxt"
