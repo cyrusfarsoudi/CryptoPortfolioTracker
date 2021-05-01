@@ -1,3 +1,5 @@
--- dependencies --
-ccxt
-- install by running "pip install ccxt"
+Deps
+- ccxt
+  - pip install ccxt
+- pyyaml
+  - pip install pyyaml

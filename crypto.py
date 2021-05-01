@@ -1,7 +1,8 @@
 #!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
 
 import sys, time
-import ccxt
+sys.path.insert(0,'/usr/local/lib/python3.7/site-packages/')
+import ccxt, yaml
 
 coinbase = ccxt.coinbase()
 binanceus = ccxt.binanceus()
@@ -10,10 +11,23 @@ kraken = ccxt.kraken()
 class Asset:
   def __init__(self, name, exchange, quantity, costBasis=0):
     self.name = name
-    self.exchange = exchange
+    self.exchange = Asset.fetchApiObject(exchange)
     self.quantity = quantity
     self.costBasis = costBasis
     self.lastPrice = 0
+
+  def buildApiObjects():
+    Asset.coinbase = ccxt.coinbase()
+    Asset.binanceus = ccxt.binanceus()
+    Asset.kraken = ccxt.kraken()
+
+  def fetchApiObject(exchange):
+    if(exchange == "coinbase"):
+      return Asset.coinbase
+    if(exchange == "binanceus"):
+      return Asset.binanceus
+    if(exchange == "kraken"):
+      return Asset.kraken
 
   def getCurrentPrice(self):
     self.lastPrice = self.exchange.fetch_ticker(self.name + "/USD")['last']
@@ -30,32 +44,41 @@ class Asset:
       self.getCurrentPrice()
     print(self.name + ": " + str(self.lastPrice))
 
-portfolio = []
-portfolio.append(Asset("BTC", coinbase, .01162942))
-portfolio.append(Asset("ETH", coinbase, .28618991))
-portfolio.append(Asset("ADA", kraken, 163.3))
-portfolio.append(Asset("DOGE", kraken, 533.9))
-portfolio.append(Asset("VET", binanceus, 919.3))
+Asset.buildApiObjects()
+
+def readPortfolioYaml(fileName):
+  with open(fileName, "r") as stream:
+    try:
+      data =  yaml.safe_load(stream)
+    except yaml.YAMLError as exc:
+      print(exc)
+  portfolio = []
+  for key, val in data.items():
+    portfolio.append(Asset(key, val["exchange"], val["quantity"]))
+  return portfolio
 
 def writeToFile(fileName, data):
   f = open(fileName, 'w')
   f.write(data)
   f.close()
 
-
-def recordPortfolioStats():
+def recordPortfolioStats(portfolio):
   history = []
   iterations = 0
   print("Total Portfolio Value: ")
   while(True):
     iterations = iterations + 1
     totalValue = 0
-    for asset in portfolio:
-      asset.getCurrentPrice()
-      totalValue = totalValue + asset.getCurrentValue()
+    try:
+      for asset in portfolio:
+        asset.getCurrentPrice()
+        totalValue = totalValue + asset.getCurrentValue()
+    except:
+      continue
     history.append((totalValue, time.time()))
-    if(iterations % 50 == 0):
+    if(iterations % 30 == 0):
       writeToFile("portfolioValues.txt", str(history))
     print(totalValue,end='\r')
 
-recordPortfolioStats()
+portfolio = readPortfolioYaml("portfolio.yaml")
+recordPortfolioStats(portfolio)

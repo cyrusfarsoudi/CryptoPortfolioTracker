@@ -1,0 +1,16 @@
+BTC: 
+  exchange: coinbase
+  quantity: .01162942
+ETH:
+  exchange: coinbase
+  quantity: .28618991
+DOGE:
+  exchange: kraken
+  quantity: 533.9
+ADA:
+  exchange: kraken
+  quantity: 163.3
+VET:
+  exchange: binanceus
+  quantity: 919.3
+
