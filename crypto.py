@@ -44,7 +44,6 @@ class Asset:
       self.getCurrentPrice()
     print(self.name + ": " + str(self.lastPrice))
 
-Asset.buildApiObjects()
 
 def readPortfolioYaml(fileName):
   with open(fileName, "r") as stream:
@@ -62,7 +61,7 @@ def writeToFile(fileName, data):
   f.write(data)
   f.close()
 
-def recordPortfolioStats(portfolio):
+def watchPortfolio(portfolio):
   history = []
   iterations = 0
   print("Total Portfolio Value: ")
@@ -76,9 +75,10 @@ def recordPortfolioStats(portfolio):
     except:
       continue
     history.append((totalValue, time.time()))
-    if(iterations % 30 == 0):
+    if(iterations % 5 == 0):
       writeToFile("portfolioValues.txt", str(history))
     print(totalValue,end='\r')
 
+Asset.buildApiObjects()
 portfolio = readPortfolioYaml("portfolio.yaml")
-recordPortfolioStats(portfolio)
+watchPortfolio(portfolio)

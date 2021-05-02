@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pgrep -f crypto.py | xargs kill
