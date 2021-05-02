@@ -36,8 +36,8 @@ def graphDataFromFile(filename):
   plt.show()
 
 def liveGraphDataFromFile(filename):
-  global data, time, axis, fig
-  data, time = readData(filename)
+  global axis, fig, dataFile
+  dataFile = filename
   # fig = plt.figure()
   fig, axis = plt.subplots()
   # axis = fig.add_subplot(1,1,1)
@@ -45,13 +45,15 @@ def liveGraphDataFromFile(filename):
   plt.show()
 
 def animate(i):
+  data, time = readData(dataFile)
+  data = data[-1000:]
+  time = time[-1000:]
   axis.clear()
   # date_fmt = '%d-%m-%y %H:%M:%S'
   # date_formatter = mdate.DateFormatter(date_fmt)
   # axis.xaxis.set_major_formatter(date_formatter)
   # fig.autofmt_xdate()
-  fmt = '${x",.0f}'
+  # fmt = '${x",.0f}'
   axis.plot(time,data)
-
 
 liveGraphDataFromFile("portfolioValues.txt")
