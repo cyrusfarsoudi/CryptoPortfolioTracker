@@ -1,5 +1,9 @@
 Deps
 - ccxt
-  - pip install ccxt
+  - pip3 install ccxt
+  - depends on six
+    - pip3 install six
 - pyyaml
   - pip install pyyaml
+- matplotlib
+  - pip3 install matplotlib
