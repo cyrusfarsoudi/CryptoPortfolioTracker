@@ -1,10 +1,10 @@
 BTC: 
   exchange: coinbase
-  quantity: .00349933
+  quantity: .00375986
   costBasis: 0
 ETH:
   exchange: coinbase
-  quantity: .44315304
+  quantity: 1.18014363
   costBasis: 2482.2725
 DOGE:
   exchange: kraken
@@ -12,10 +12,9 @@ DOGE:
   costBasis: .5643
 ADA:
   exchange: kraken
-  quantity: 163.3
+  quantity: 154.1
   costBasis: 1.224
 VET:
   exchange: binanceus
-  quantity: 3287.7
-  costBasis: .2138
-
+  quantity: 5530.7
+  costBasis: .1638

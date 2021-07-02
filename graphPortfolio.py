@@ -8,7 +8,9 @@ import matplotlib.animation as animation
 import matplotlib.dates as mdate
 from matplotlib import style
 import numpy as np
+import time
 
+from EpochPST import EpochPST
 import crypto
 # sys.path.insert(0,'/usr/local/lib/python3.7/site-packages/')
 
@@ -34,7 +36,7 @@ def graphDataFromFile(filename):
   axis.plot_date(secs, data)
   plt.plot(secs,data)
 # Choose your xtick format string
-  date_fmt = '%d-%m-%y %H:%M:%S'
+  date_fmt = '%m/%d %H:%M'
 # Use a DateFormatter to set the data to the correct format.
   date_formatter = mdate.DateFormatter(date_fmt)
   axis.xaxis.set_major_formatter(date_formatter)
@@ -49,35 +51,45 @@ def liveGraphDataFromFile(filename):
   ani = animation.FuncAnimation(fig, animate, interval=1000)
   plt.show()
 
-def makeLegend(portfolio):
+def makeLegend(prices, values, profits):
   colors = ["yellow", "blue", "orange", "purple", "red"]
   mp = []
-  for key in portfolio:
-    mp.append(mpatches.Patch(color=colors.pop(), label=(key.name + ": " + str(round(lastPrices[key.name],2)) + " (" + str(round(lastValues[key.name],2)) + ")")))
+  for asset in prices:
+    mp.append(mpatches.Patch(color=colors.pop(), label=(asset + ": " + str(round(prices[asset],4)) + " (" + str(round(values[asset],2)) + ") (" + str(round(profits[asset],2)) + ")")))
   return mp
 
 def animate(i):
   data, time = readHistoricalData(dataFile)
-  global lastPrices, lastValues
   lastPrices = readData("lastPrices.txt")
   lastValues = readData("lastValues.txt")
-  data = data[-10000:]
-  time = time[-10000:]
+  lastProfits = readData("lastProfits.txt")
+  hourAgo = EpochPST.getHourAgo()
+  validPrices = 0
+  for i in range(len(time)-1,-1,-1):
+    if(time[i] > hourAgo):
+      validPrices += 1
+    else:
+      break
+  data = data[-validPrices:]
+  time = time[-validPrices:]
   secs = mdate.epoch2num(time)
   axis.clear()
 
-  date_fmt = '%d-%m-%y %H:%M:%S'
+  date_fmt = '%m/%d %H:%M'
   date_formatter = mdate.DateFormatter(date_fmt)
   axis.xaxis.set_major_formatter(date_formatter)
   fig.autofmt_xdate()
   axis.plot(secs,data)
 
-  plt.legend(handles=makeLegend(portfolio))
+  plt.legend(handles=makeLegend(lastPrices, lastValues, lastProfits))
 
   totalValue = 0
+  totalProfit = 0
   for value,key in lastValues.items():
     totalValue = totalValue + key
-  plt.title("Total Portfolio Value: " + str(round(totalValue,2)))
+  for value,key in lastProfits.items():
+    totalProfit = totalProfit + key
+  plt.title("Total Portfolio Value: " + str(round(totalValue,2)) + " (" + str(round(totalProfit,2)) + ")")
 
-portfolio = crypto.readPortfolioYaml("portfolio.yaml", False)
 liveGraphDataFromFile("portfolioValues.txt")
+# graphDataFromFile("portfolioValues.txt")

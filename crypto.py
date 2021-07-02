@@ -3,6 +3,7 @@
 import sys, time
 sys.path.insert(0,'/usr/local/lib/python3.7/site-packages/')
 import ccxt, yaml
+from EpochPST import EpochPST
 
 coinbase = ccxt.coinbase()
 binanceus = ccxt.binanceus()
@@ -41,6 +42,9 @@ class Asset:
     self.lastValue = self.lastPrice * self.quantity
     return self.lastValue
 
+  def getCurrentProfit(self):
+    return self.getCurrentValue() - self.costBasis * self.quantity
+
   def printPrice(self):
     if(not self.lastPrice):
       self.getCurrentPrice()
@@ -69,7 +73,9 @@ def watchPortfolio(portfolio):
   history = []
   lastPrices = {}
   lastValues = {}
+  lastProfits = {}
   iterations = 0
+  lastTotal = 0
   print("Total Portfolio Value: ")
   while(True):
     iterations = iterations + 1
@@ -78,15 +84,20 @@ def watchPortfolio(portfolio):
       for asset in portfolio:
         lastPrices[asset.name] = asset.getCurrentPrice()
         lastValues[asset.name] = asset.getCurrentValue()
+        lastProfits[asset.name] = asset.getCurrentProfit()
         totalValue = totalValue + asset.getCurrentValue()
     except Exception as e:
       print(e)
       continue
-    history.append((totalValue, time.time()))
-    if(iterations % 5 == 0):
-      writeToFile("portfolioValues.txt", str(history))
-      writeToFile("lastPrices.txt", str(lastPrices))
-      writeToFile("lastValues.txt", str(lastValues))
+    if(totalValue == lastTotal):
+      continue
+    else:
+      lastTotal = totalValue
+    history.append((totalValue, EpochPST.getPST()))
+    writeToFile("portfolioValues.txt", str(history))
+    writeToFile("lastPrices.txt", str(lastPrices))
+    writeToFile("lastValues.txt", str(lastValues))
+    writeToFile("lastProfits.txt", str(lastProfits))
     print(totalValue,end='\r')
 
 
