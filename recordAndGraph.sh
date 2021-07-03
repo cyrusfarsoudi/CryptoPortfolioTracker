@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./crypto.py &
-./graphPortfolio.py &
+python graphPortfolio.py &
+python crypto.py 

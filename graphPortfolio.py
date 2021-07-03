@@ -78,6 +78,7 @@ def animate(i):
   date_fmt = '%m/%d %H:%M'
   date_formatter = mdate.DateFormatter(date_fmt)
   axis.xaxis.set_major_formatter(date_formatter)
+  axis.yaxis.set_major_formatter('${x:1.0f}')
   fig.autofmt_xdate()
   axis.plot(secs,data)
 
@@ -89,7 +90,7 @@ def animate(i):
     totalValue = totalValue + key
   for value,key in lastProfits.items():
     totalProfit = totalProfit + key
-  plt.title("Total Portfolio Value: " + str(round(totalValue,2)) + " (" + str(round(totalProfit,2)) + ")")
+  plt.title("Total Portfolio Value: \$" + str(round(totalValue,2)) + " ($" + str(round(totalProfit,2)) + ")")
 
 liveGraphDataFromFile("portfolioValues.txt")
 # graphDataFromFile("portfolioValues.txt")
