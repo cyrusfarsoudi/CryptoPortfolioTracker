@@ -1,7 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
 
 import sys, time
-sys.path.insert(0,'/usr/local/lib/python3.7/site-packages/')
 import ccxt, yaml
 from EpochPST import EpochPST
 

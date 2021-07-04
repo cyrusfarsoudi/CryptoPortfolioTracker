@@ -1,7 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
 
 import sys
-
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.animation as animation
@@ -92,5 +91,9 @@ def animate(i):
     totalProfit = totalProfit + key
   plt.title("Total Portfolio Value: \$" + str(round(totalValue,2)) + " ($" + str(round(totalProfit,2)) + ")")
 
-liveGraphDataFromFile("portfolioValues.txt")
-# graphDataFromFile("portfolioValues.txt")
+def main():
+  liveGraphDataFromFile("portfolioValues.txt")
+  # graphDataFromFile("portfolioValues.txt")
+
+if __name__ == "__main__":
+  main()
