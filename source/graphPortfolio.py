@@ -59,9 +59,9 @@ def makeLegend(prices, values, profits):
 
 def animate(i):
   data, time = readHistoricalData(dataFile)
-  lastPrices = readData("lastPrices.txt")
-  lastValues = readData("lastValues.txt")
-  lastProfits = readData("lastProfits.txt")
+  lastPrices = readData("data/lastPrices.txt")
+  lastValues = readData("data/lastValues.txt")
+  lastProfits = readData("data/lastProfits.txt")
   hourAgo = EpochPST.getHourAgo()
   validPrices = 0
   for i in range(len(time)-1,-1,-1):
@@ -92,8 +92,8 @@ def animate(i):
   plt.title("Total Portfolio Value: \$" + str(round(totalValue,2)) + " ($" + str(round(totalProfit,2)) + ")")
 
 def main():
-  liveGraphDataFromFile("portfolioValues.txt")
-  # graphDataFromFile("portfolioValues.txt")
+  liveGraphDataFromFile("data/portfolioValues.txt")
+  # graphDataFromFile("data/portfolioValues.txt")
 
 if __name__ == "__main__":
   main()

@@ -1,1 +1,2 @@
-portfolioValues.txt
+data/*txt
+source/__pycache__

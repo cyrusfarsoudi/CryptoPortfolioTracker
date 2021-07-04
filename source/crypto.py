@@ -93,16 +93,16 @@ def watchPortfolio(portfolio):
     else:
       lastTotal = totalValue
     history.append((totalValue, EpochPST.getPST()))
-    writeToFile("portfolioValues.txt", str(history))
-    writeToFile("lastPrices.txt", str(lastPrices))
-    writeToFile("lastValues.txt", str(lastValues))
-    writeToFile("lastProfits.txt", str(lastProfits))
+    writeToFile("data/portfolioValues.txt", str(history))
+    writeToFile("data/lastPrices.txt", str(lastPrices))
+    writeToFile("data/lastValues.txt", str(lastValues))
+    writeToFile("data/lastProfits.txt", str(lastProfits))
     print(totalValue,end='\r')
 
 
 def main():
   Asset.buildApiObjects()
-  portfolio = readPortfolioYaml("portfolio.yaml")
+  portfolio = readPortfolioYaml("data/portfolio.yaml")
   watchPortfolio(portfolio)
 
 if __name__ == "__main__":

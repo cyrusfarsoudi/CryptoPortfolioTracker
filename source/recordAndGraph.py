@@ -4,11 +4,11 @@ import graphPortfolio
 
 def runCrypto():
   crypto.Asset.buildApiObjects()
-  portfolio = crypto.readPortfolioYaml("portfolio.yaml")
+  portfolio = crypto.readPortfolioYaml("data/portfolio.yaml")
   crypto.watchPortfolio(portfolio)
 
 def runGraphPortfolio():
-  graphPortfolio.liveGraphDataFromFile("portfolioValues.txt")
+  graphPortfolio.liveGraphDataFromFile("data/portfolioValues.txt")
 
 t1 = threading.Thread(target=runCrypto)
 t1.start()
