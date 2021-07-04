@@ -1,5 +1,3 @@
-#!/Library/Frameworks/Python.framework/Versions/3.9/bin/python3
-
 import sys
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
@@ -11,7 +9,6 @@ import time
 
 from EpochPST import EpochPST
 import crypto
-# sys.path.insert(0,'/usr/local/lib/python3.7/site-packages/')
 
 def readHistoricalData(fileName):
   f = open(fileName, "r")

@@ -1,7 +1,7 @@
 #!/bin/bash
 
-source /Users/cyrusfarsoudi/.bash_profile
+source ~/.bash_profile
 
-cd /Users/cyrusfarsoudi/Documents/CryptoPortfolioTracker/source
+cd ~/CryptoPortfolioTracker/source
 
 python recordAndGraph.py

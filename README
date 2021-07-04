@@ -1,4 +1,11 @@
+To Run:
+- Make sure you meet all the dependencies listed below. Run scripts/install_deps.sh if you do not.
+- run scripts/runLive.sh
+
 Deps
+- python3.9
+  - download from python.org
+  - make sure this version of python is loaded first from your path
 - ccxt
   - pip3 install ccxt
   - depends on six
