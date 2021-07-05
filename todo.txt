@@ -2,3 +2,4 @@
 - change line color to depict increase or decrease in total portfolio
 - add time setting (e.g view last hour, 24 hours, 7 days, month)
 - find smart way to store tons of historical data
+- deploy in containers

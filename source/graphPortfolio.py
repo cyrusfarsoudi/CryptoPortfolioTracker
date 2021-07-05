@@ -9,20 +9,16 @@ import time
 
 from EpochPST import EpochPST
 import crypto
+import utils
 
 def readHistoricalData(fileName):
-  f = open(fileName, "r")
-  data = eval(f.readline())
+  data = utils.readBinaryData(fileName)
   prices = []
   time = []
   for first, second in data:
       prices.append(first)
       time.append(second)
   return prices, time
-
-def readData(fileName):
-  f = open(fileName, "r")
-  return eval(f.readline())
 
 def graphDataFromFile(filename):
   data, time = readHistoricalData(filename)
@@ -56,9 +52,9 @@ def makeLegend(prices, values, profits):
 
 def animate(i):
   data, time = readHistoricalData(dataFile)
-  lastPrices = readData("data/lastPrices.txt")
-  lastValues = readData("data/lastValues.txt")
-  lastProfits = readData("data/lastProfits.txt")
+  lastPrices = utils.readBinaryData("data/lastPrices.dat")
+  lastValues = utils.readBinaryData("data/lastValues.dat")
+  lastProfits = utils.readBinaryData("data/lastProfits.dat")
   hourAgo = EpochPST.getHourAgo()
   validPrices = 0
   for i in range(len(time)-1,-1,-1):
@@ -89,8 +85,7 @@ def animate(i):
   plt.title("Total Portfolio Value: \$" + str(round(totalValue,2)) + " ($" + str(round(totalProfit,2)) + ")")
 
 def main():
-  liveGraphDataFromFile("data/portfolioValues.txt")
-  # graphDataFromFile("data/portfolioValues.txt")
+  liveGraphDataFromFile("data/portfolioValues.dat")
 
 if __name__ == "__main__":
   main()

@@ -8,7 +8,7 @@ def runCrypto():
   crypto.watchPortfolio(portfolio)
 
 def runGraphPortfolio():
-  graphPortfolio.liveGraphDataFromFile("data/portfolioValues.txt")
+  graphPortfolio.liveGraphDataFromFile("data/portfolioValues.dat")
 
 t1 = threading.Thread(target=runCrypto)
 t1.start()

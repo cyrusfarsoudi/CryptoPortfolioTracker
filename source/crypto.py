@@ -1,5 +1,6 @@
 import sys, time
 import ccxt, yaml
+import utils
 from EpochPST import EpochPST
 
 coinbase = ccxt.coinbase()
@@ -61,11 +62,6 @@ def readPortfolioYaml(fileName, buildApi=True):
     portfolio.append(Asset(key, val["exchange"], val["quantity"], val["costBasis"], buildApi))
   return portfolio
 
-def writeToFile(fileName, data):
-  f = open(fileName, 'w')
-  f.write(data)
-  f.close()
-
 def watchPortfolio(portfolio):
   history = []
   lastPrices = {}
@@ -91,10 +87,10 @@ def watchPortfolio(portfolio):
     else:
       lastTotal = totalValue
     history.append((totalValue, EpochPST.getPST()))
-    writeToFile("data/portfolioValues.txt", str(history))
-    writeToFile("data/lastPrices.txt", str(lastPrices))
-    writeToFile("data/lastValues.txt", str(lastValues))
-    writeToFile("data/lastProfits.txt", str(lastProfits))
+    utils.writeBinaryData("data/portfolioValues.dat", history)
+    utils.writeBinaryData("data/lastPrices.dat", lastPrices)
+    utils.writeBinaryData("data/lastValues.dat", lastValues)
+    utils.writeBinaryData("data/lastProfits.dat", lastProfits)
     print(totalValue,end='\r')
 
 
